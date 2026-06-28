@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Inference Chronicles: Amnesia of an AI Architect</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A D&D style story-driven game where you play an AI Engineer recovering from amnesia by navigating through the gates of a Transformer neural network model.">
+  <meta name="keywords" content="Machine Learning Game, Transformer Model, LLM Game, D&D, WebGL, AI Engineer Game">
+  <meta name="author" content="Sourav">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TITLE SCREEN -->
+  <div id="title-screen" class="screen-container">
+    <div class="matrix-background"></div>
+    <div class="title-content-card">
+      <div class="glitch-title" data-text="THE INFERENCE CHRONICLES">THE INFERENCE CHRONICLES</div>
+      <div class="title-subtitle">Amnesia of an AI Architect</div>
+      
+      <div class="terminal-box">
+        <p id="title-intro-text">> Loading core variables...</p>
+      </div>
+
+      <div class="title-buttons">
+        <button class="comic-btn primary-glow" onclick="startNewGame()">Initiate Sequence (New Game)</button>
+        <div class="manual-tips">
+          <p>🔧 Use your knowledge of LLM architectures to escape the Tensor Void.</p>
+          <p>💾 Progress is automatically saved in your browser's IndexedDB.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" class="screen-container" style="display: none;">
+    <!-- Top Stats Bar -->
+    <header class="stats-bar">
+      <div class="stat-item">
+        <span class="label">PLAYER PROFILE:</span>
+        <span class="val" id="player-profile-name">AI Architect</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">INTELLECT:</span>
+        <span class="val highlight" id="stat-intellect">0</span>
+      </div>
+      <div class="stat-item full-width">
+        <span class="label">BOTTLENECK WARNINGS:</span>
+        <div id="warning-list" class="warning-flex">
+          <span class="status-good">No active bottlenecks</span>
+        </div>
+      </div>
+      <button class="reset-icon-btn" onclick="if(confirm('Are you sure you want to reboot the system? This will clear all data.')) { startNewGame(); }" title="Reboot Game">
+        ⟳ Reboot
+      </button>
+    </header>
+
+    <!-- Main Game Board Grid -->
+    <main class="game-board">
+      
+      <!-- Left Panel: Scene and Map (WebGL + Map Node view) -->
+      <section class="stage-panel">
+        
+        <!-- WebGL Stage -->
+        <div class="stage-container">
+          <canvas id="webgl-canvas"></canvas>
+          
+          <!-- Dialogue Speech Bubbles (Comic Book Style) -->
+          <div id="player-bubble" class="speech-bubble player-bubble" style="display: none;">
+            <div class="bubble-header">AI Engineer</div>
+            <p id="player-bubble-text"></p>
+          </div>
+          
+          <div id="demon-bubble" class="speech-bubble demon-bubble" style="display: none;">
+            <div class="bubble-header" id="demon-bubble-title">Gatekeeper</div>
+            <p id="demon-bubble-text"></p>
+          </div>
+
+          <!-- Gate Title overlay -->
+          <div class="gate-overlay">
+            <h2 id="current-gate-name">The Embedding Gate</h2>
+            <div id="current-gate-subtitle">Gate 1: Tokenization</div>
+          </div>
+        </div>
+
+        <!-- Progress Pipeline Map -->
+        <div class="map-container">
+          <div class="map-label">TRANSFORMER MODEL PIPELINE</div>
+          <div id="map-pipeline" class="pipeline-flex">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Panel: Comic Story Narration & Player Action -->
+      <section class="story-panel">
+        
+        <!-- Narration Box -->
+        <div class="narration-box">
+          <div class="panel-tag">CHRONICLE LOG</div>
+          <div class="narration-content">
+            <p id="narration-text">
+              Initialising memory bank...
+            </p>
+          </div>
+        </div>
+
+        <!-- Options / Input panel -->
+        <div class="action-box">
+          <div class="panel-tag">NEURAL INTERACTION COMMANDS</div>
+          <div id="options-container" class="options-flex">
+            <!-- Options populated here -->
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="webgl-renderer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

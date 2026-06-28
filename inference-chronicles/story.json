@@ -1,0 +1,384 @@
+{
+  "maps": [
+    {
+      "id": "architecture",
+      "title": "Map 1: The Architecture Maze",
+      "subtitle": "Assemble the core Transformer layers",
+      "gates": [
+        {
+          "id": "gate_embedding",
+          "name": "The Tokenization Abyss",
+          "subtitle": "Gate 1: Embedding & Vocabulary",
+          "description": "You wake up on a floating platform made of green neon data-streams. Your memory is gone, but you feel a strange connection to the matrices around you. In front of you stands the First Gatekeeper, a towering shadow of syntax errors.",
+          "demonName": "Tokenizer Demon",
+          "demonStyle": "glitchy",
+          "question": "To enter the model, you must convert the language of humans into numbers. You have a massive multilingual dataset (English, Chinese, and Python code). Which tokenization strategy do you choose to balance vocabulary size and context length?",
+          "options": [
+            {
+              "id": "char",
+              "text": "Character-Level Tokenization",
+              "outcome": "fail",
+              "message": "The Demon laughs! 'Your sequences explode in length! A single sentence takes 500 tokens, crushing our context window. You are cast back into the void!'",
+              "backtrack": true
+            },
+            {
+              "id": "word",
+              "text": "Word-Level Tokenization",
+              "outcome": "fail",
+              "message": "The Demon sneers! 'Out-Of-Vocabulary (OOV) tokens everywhere! Any new word or typo becomes an <unk> token. The model is blind! Back to the drawing board.'",
+              "backtrack": true
+            },
+            {
+              "id": "bpe",
+              "text": "Byte-Pair Encoding (BPE)",
+              "outcome": "success",
+              "message": "The Demon shrieks as its syntax crumbles! 'Subword tokenization! You've successfully balanced vocabulary size and sequence length. The gate opens!'",
+              "intellectReward": 10
+            }
+          ]
+        },
+        {
+          "id": "gate_position",
+          "name": "The Hall of Positional Whispers",
+          "subtitle": "Gate 2: Positional Encodings",
+          "description": "You step through the gate and find yourself in a corridor of shifting glyphs. The tokens have numerical values, but they are a chaotic bag-of-words; they have no sense of order. A spectral figure with clock hands for arms blocks the way.",
+          "demonName": "Chronos Vector",
+          "demonStyle": "time",
+          "question": "Words have order, but attention is permutation-invariant. We must inject position. You want your model to extrapolate to longer sequences during inference than it saw in training. What positional encoding do you apply?",
+          "options": [
+            {
+              "id": "absolute",
+              "text": "Absolute Learned Positional Embeddings",
+              "outcome": "suboptimal",
+              "message": "The Chronos Vector sighs. 'You pass, but the model cannot generalize to sequences longer than the training limit. Your context length is locked. VRAM consumption will increase later.'",
+              "intellectReward": 5,
+              "warning": "Context window locked to training length."
+            },
+            {
+              "id": "none",
+              "text": "No Positional Encoding (Pure Bag-of-Words)",
+              "outcome": "fail",
+              "message": "The Chronos Vector freezes time! 'Without order, \"dog bites man\" is identical to \"man bites dog\". The model is functionally illiterate. Backtrack!'",
+              "backtrack": true
+            },
+            {
+              "id": "rope",
+              "text": "Rotary Position Embeddings (RoPE)",
+              "outcome": "success",
+              "message": "The Chronos Vector spins wildly and dissolves! 'Ah, rotating the query and key vectors in complex space! Relational distance is preserved, and context can scale. Magnificent!'",
+              "intellectReward": 15
+            }
+          ]
+        },
+        {
+          "id": "gate_attention",
+          "name": "The Nexus of Attention",
+          "subtitle": "Gate 3: Attention Mechanism",
+          "description": "You enter a massive circular room lined with mirrors. Beams of light shoot between tokens, calculating correlations. In the center stands a multi-headed hydra-like demon, greedily consuming VRAM.",
+          "demonName": "VRAM Hydra",
+          "demonStyle": "multi-head",
+          "question": "The VRAM Hydra is starving. In Multi-Head Attention (MHA), every query head has its own Key and Value heads, consuming massive memory for the KV-Cache at scale. How do you satisfy the Hydra's hunger without losing too much model quality?",
+          "options": [
+            {
+              "id": "mha",
+              "text": "Stick with Multi-Head Attention (MHA)",
+              "outcome": "suboptimal",
+              "message": "The Hydra roars. 'I accept your sacrifice of massive VRAM! But at inference time, your memory footprint will limit concurrent users. You may pass, but your system is bloated.'",
+              "intellectReward": 5,
+              "warning": "KV-Cache memory usage is maximized. Bottleneck alert!"
+            },
+            {
+              "id": "mqa",
+              "text": "Multi-Query Attention (MQA) (Single K/V Head)",
+              "outcome": "suboptimal",
+              "message": "The Hydra grumbles. 'Extremely low memory footprint! But grouping all query heads to a single K/V head degrades my attention capacity. Accuracy drops too much. Try another balance.'",
+              "backtrack": true
+            },
+            {
+              "id": "gqa",
+              "text": "Grouped-Query Attention (GQA)",
+              "outcome": "success",
+              "message": "The Hydra's heads bow in respect. 'Brilliant! Grouping queries into a few key-value head clusters. You save massive memory while retaining nearly all MHA capabilities. The pathway clears!'",
+              "intellectReward": 20
+            }
+          ]
+        },
+        {
+          "id": "gate_activation",
+          "name": "The Activation Forge",
+          "subtitle": "Gate 4: Feed-Forward Non-Linearity",
+          "description": "The signals are combined, but they are still purely linear transformations. You enter a fiery forge. A demon made of molten iron blocks the hammer. 'Without non-linearity, a 100-layer network is just a single linear regression!'",
+          "demonName": "Anvil of Gradients",
+          "demonStyle": "fire",
+          "question": "To add non-linearity, you must pass the signals through a activation function. However, the gradients are dying, and training is halting. Which activation function do you select to forge your feed-forward layers?",
+          "options": [
+            {
+              "id": "relu",
+              "text": "ReLU (Rectified Linear Unit)",
+              "outcome": "fail",
+              "message": "The Anvil strikes! 'Too many neurons are outputting exactly zero! The \"Dying ReLU\" problem has frozen half the network's weights. The forge goes cold. Retrace your steps!'",
+              "backtrack": true
+            },
+            {
+              "id": "tanh",
+              "text": "Tanh (Hyperbolic Tangent)",
+              "outcome": "fail",
+              "message": "The Anvil heats up, but the output freezes. 'Vanishing gradients! The activation saturates at -1 and 1, and the network stops learning. Backtrack!'",
+              "backtrack": true
+            },
+            {
+              "id": "swiglu",
+              "text": "SwiGLU (Swish Gated Linear Unit)",
+              "outcome": "success",
+              "message": "The forge burns with a brilliant blue flame! 'SwiGLU! Combining the Swish activation with Gated Linear units. Smooth gradients, no dying neurons, and state-of-the-art representation. The metal is tempered!'",
+              "intellectReward": 20
+            }
+          ]
+        },
+        {
+          "id": "gate_normalization",
+          "name": "The Normalization Sanctuary",
+          "subtitle": "Gate 5: Normalization & Stability",
+          "description": "You emerge into a quiet, humming temple. But the energies here are chaotic; numerical values are exploding, threatening to cause NaNs. A floating, Zen-like stick figure demon blocks the exit.",
+          "demonName": "Guru NaN",
+          "demonStyle": "zen",
+          "question": "To stabilize training in deep networks, we must normalize. Where should we position the normalization layers (LayerNorm/RMSNorm) relative to the residual blocks, and which is more computationally efficient?",
+          "options": [
+            {
+              "id": "post_ln",
+              "text": "Post-LayerNorm (After residual connections)",
+              "outcome": "fail",
+              "message": "Guru NaN sighs. 'Post-LayerNorm makes training unstable in deep networks without complex warm-ups. The gradients explode. Return to the path of balance.'",
+              "backtrack": true
+            },
+            {
+              "id": "pre_rmsnorm",
+              "text": "Pre-RMSNorm (Before sub-layers, scaling only)",
+              "outcome": "success",
+              "message": "Guru NaN nods peacefully. 'RMSNorm skips mean-centering and only scales by root-mean-square, saving 10-50% of normalization time. Placing it PRE-layer ensures stable gradient flow. Pass in peace.'",
+              "intellectReward": 15
+            },
+            {
+              "id": "pre_ln",
+              "text": "Pre-LayerNorm (Before sub-layers, mean and variance)",
+              "outcome": "suboptimal",
+              "message": "Guru NaN smiles. 'Stable indeed, but calculating the mean and variance is redundant compared to RMSNorm. You may pass, but at a minor latency penalty.'",
+              "intellectReward": 8,
+              "warning": "Slightly slower than RMSNorm."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "training",
+      "title": "Map 2: The Training Forge",
+      "subtitle": "Ignite the learning parameters",
+      "gates": [
+        {
+          "id": "gate_lr",
+          "name": "The Learning Rate Furnace",
+          "subtitle": "Gate 1: Optimization Schedulers",
+          "description": "You step onto a platform that feels hot. The data stream is flowing turbulently, and the gradients are oscillating wildly. A mechanical sentinel stands guard holding a giant cooling fan.",
+          "demonName": "Optimizer Decayer",
+          "demonStyle": "time",
+          "question": "Your model training loss is fluctuating violently and diverging in the early epochs. You need a learning rate scheduler strategy. What do you choose?",
+          "options": [
+            {
+              "id": "constant_lr",
+              "text": "High Constant Learning Rate (1e-3)",
+              "outcome": "fail",
+              "message": "Optimizer Decayer blows a blast of hot air! 'The loss explodes! Gradients overshoot local minima and escape. The weights overflow! Retrace your steps.'",
+              "backtrack": true
+            },
+            {
+              "id": "cosine_warmup",
+              "text": "Cosine Decay with Linear Warmup",
+              "outcome": "success",
+              "message": "Optimizer Decayer nods and stops the fan. 'Excellent. Linear warmup stabilizes early training by protecting fragile random initializations. The cosine decay down to 10% of peak ensures smooth convergence!'",
+              "intellectReward": 15
+            },
+            {
+              "id": "step_decay",
+              "text": "Step Decay (Half LR every 5 epochs)",
+              "outcome": "suboptimal",
+              "message": "Optimizer Decayer grumbles. 'Acceptable, but step decay causes jagged convergence plateaus. It does not scale as elegantly as Cosine Decay. You pass with a warning.'",
+              "intellectReward": 8,
+              "warning": "Jagged training convergence."
+            }
+          ]
+        },
+        {
+          "id": "gate_precision",
+          "name": "The Precision Chamber",
+          "subtitle": "Gate 2: Numeric Representations",
+          "description": "The air becomes cold. Floating bits of data drift past, displaying half-precision binary representation. A spectral figure with floating binary digits blocks your forward path.",
+          "demonName": "Bit Spectre",
+          "demonStyle": "glitchy",
+          "question": "To speed up training and save GPU memory, you want to use mixed precision. However, standard FP16 training causes minor gradients to underflow to zero. What representation or scaling strategy is best?",
+          "options": [
+            {
+              "id": "pure_fp32",
+              "text": "Pure FP32 (Single Precision)",
+              "outcome": "suboptimal",
+              "message": "Bit Spectre sighs. 'It is perfectly stable, but it uses twice the memory and runs at a fraction of Tensor Core speed. You pass, but your training runs very slowly.'",
+              "intellectReward": 5,
+              "warning": "Bloated training VRAM usage."
+            },
+            {
+              "id": "fp16_scaling",
+              "text": "Mixed Precision FP16 with Dynamic Loss Scaling",
+              "outcome": "success",
+              "message": "Bit Spectre dissolves into glowing green lines! 'Yes! Dynamically multiplying loss values shifts gradients into FP16's dynamic range. This prevents underflow without inflating memory!'",
+              "intellectReward": 15
+            },
+            {
+              "id": "bf16",
+              "text": "Mixed Precision BF16 (Brain Float 16)",
+              "outcome": "success",
+              "message": "Bit Spectre hums in approval. 'BF16 maintains the same dynamic range as FP32 (8 exponent bits). No loss scaling is required! Works perfectly on modern Tensor Cores. The path opens.'",
+              "intellectReward": 20
+            }
+          ]
+        },
+        {
+          "id": "gate_parallel",
+          "name": "The Parallelism Nexus",
+          "subtitle": "Gate 3: Distributed Training",
+          "description": "You enter a chamber split by mirrors into multiple processing channels. A multi-headed machine divider blocks the exit, roaring: 'This model is 70 billion parameters! It does not fit on one GPU. Divide or die!'",
+          "demonName": "Tensor Divider",
+          "demonStyle": "multi-head",
+          "question": "You have a cluster of 8-GPU nodes (80GB VRAM each). A 70B FP16 model parameters alone take 140GB, excluding gradients and optimizer state. How do you distribute the model for training?",
+          "options": [
+            {
+              "id": "ddp",
+              "text": "Standard Distributed Data Parallelism (DDP)",
+              "outcome": "fail",
+              "message": "Tensor Divider stomps! 'Standard DDP copies the entire model onto each GPU. 140GB does not fit in 80GB! Out Of Memory immediately. Backtrack.'",
+              "backtrack": true
+            },
+            {
+              "id": "fsdp",
+              "text": "FSDP (Fully Sharded Data Parallel) / ZeRO-3",
+              "outcome": "success",
+              "message": "Tensor Divider's heads sync up. 'Fantastic! Sharding the model weights, gradients, and optimizer states across all GPUs. Communication overhead is handled via gather/reduce. You fit easily!'",
+              "intellectReward": 20
+            },
+            {
+              "id": "pipeline",
+              "text": "Simple Pipeline Parallelism (Layer-wise splitting)",
+              "outcome": "suboptimal",
+              "message": "Tensor Divider accepts the split. 'It fits, but without microbatching, GPUs sit idle waiting for previous layer inputs. You have a massive execution bubble. Pass with warning.'",
+              "intellectReward": 10,
+              "warning": "Pipeline bubble latency bottleneck."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compression",
+      "title": "Map 3: The Compression Vault",
+      "subtitle": "Quantization and Fine-Tuning",
+      "gates": [
+        {
+          "id": "gate_quant",
+          "name": "The Quantization Forge",
+          "subtitle": "Gate 1: Weight Quantization",
+          "description": "You enter a vault of massive weights. A heavy metallic sentinel with compression pistons blocks the gateway. 'The model is too large for consumer GPUs! Squeeze the weights!'",
+          "demonName": "Compressor Sentinal",
+          "demonStyle": "fire",
+          "question": "You want to compress your FP16 model weights down to 4-bit representation to run on a consumer GPU. Which quantization method maintains the highest quality for LLMs?",
+          "options": [
+            {
+              "id": "rtn",
+              "text": "Round-to-Nearest (RTN) Quantization",
+              "outcome": "fail",
+              "message": "Compressor Sentinal hits the ground. 'Catastrophic accuracy degradation! In LLMs, outlier weights carry essential semantic signals. Rounding them blindly breaks the model! Try again.'",
+              "backtrack": true
+            },
+            {
+              "id": "awq",
+              "text": "Activation-aware Weight Quantization (AWQ)",
+              "outcome": "success",
+              "message": "Compressor Sentinal retracts its pistons. 'Brilliant! AWQ observes the activation distributions during training and protects the top 1% salient weight channels from compression noise. Perplexity remains intact!'",
+              "intellectReward": 20
+            },
+            {
+              "id": "double_quant",
+              "text": "Double Quantization (QLoRA style)",
+              "outcome": "success",
+              "message": "Compressor Sentinal nods. 'Saves additional memory by quantizing the quantization scales. The model size shrinks even further with negligible perplexity loss. Pass!'",
+              "intellectReward": 15
+            }
+          ]
+        },
+        {
+          "id": "gate_lora",
+          "name": "The LoRA Attunement",
+          "subtitle": "Gate 2: Low-Rank Adaptation",
+          "description": "You enter a shrine filled with floating matrices. In the center floats a shadowy figure. 'Fine-tuning all parameters is a waste. Train only the shadow adapters!'",
+          "demonName": "Low-Rank Shadow",
+          "demonStyle": "zen",
+          "question": "You want to fine-tune your model on specialized dialogue. You decide to use LoRA. What parameters of rank (r) and scaling factor (alpha) do you configure?",
+          "options": [
+            {
+              "id": "high_rank",
+              "text": "Rank r = 512, Alpha = 1024",
+              "outcome": "fail",
+              "message": "Low-Rank Shadow sweeps you away. 'Rank is too high! The parameter count explodes, defeating the purpose of low-rank adaptation. You run out of memory. Retrace!'",
+              "backtrack": true
+            },
+            {
+              "id": "standard_lora",
+              "text": "Rank r = 8, Alpha = 16",
+              "outcome": "success",
+              "message": "Low-Rank Shadow merges with your outline. 'Perfect. A rank of 8 is small enough to train under 1% of total weights, while a scaling factor of 16 ensures stable gradient propagation. Excellent choice!'",
+              "intellectReward": 15
+            },
+            {
+              "id": "tiny_rank",
+              "text": "Rank r = 1, Alpha = 2",
+              "outcome": "suboptimal",
+              "message": "Low-Rank Shadow whispers. 'Too small. A rank of 1 is not expressive enough to capture complex patterns in the fine-tuning data. The training converges, but fine-tuning has little effect.'",
+              "intellectReward": 5,
+              "warning": "Ineffective fine-tuning rank."
+            }
+          ]
+        },
+        {
+          "id": "gate_inference_final",
+          "name": "The Inference Colossus",
+          "subtitle": "Gate 3: Hardware Scaling & Deployment",
+          "description": "The model is fully trained, compressed, and adapted! You stand at the edge of the deployment void, overlooking a vast data center. A massive Colossus made of glowing GPU racks towers over you.",
+          "demonName": "Colossus VRAM",
+          "demonStyle": "giant",
+          "question": "You are deploying a Llama-3 8B model in FP16. You expect 1000 concurrent users. The average prompt+generation length is 2048 tokens. Using GQA (KV cache is ~250MB per user). What is the minimum GPU hardware layout to serve these users without running out of memory (OOM)?",
+          "options": [
+            {
+              "id": "single_a10",
+              "text": "1x NVIDIA A10G (24GB VRAM)",
+              "outcome": "fail",
+              "message": "The Colossus stomps its feet! 'Out of Memory! The model parameters alone take 16GB, leaving only 8GB. The KV Cache for 1000 users requires ~250GB! Boom!'",
+              "backtrack": true
+            },
+            {
+              "id": "single_a100",
+              "text": "1x NVIDIA A100 (80GB VRAM)",
+              "outcome": "fail",
+              "message": "The Colossus laughs! '80GB is enough to run the model and a few dozen users, but 1000 concurrent users will overwhelm the remaining VRAM instantly! OOM!'",
+              "backtrack": true
+            },
+            {
+              "id": "multi_a100",
+              "text": "8x NVIDIA A100 (80GB VRAM each = 640GB total VRAM)",
+              "outcome": "success",
+              "message": "The Colossus glows green and bows. '640GB of total VRAM! Plenty of room for the 16GB model and the ~250GB of KV cache, with headroom for continuous batching. You have successfully deployed the model!'",
+              "intellectReward": 30
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
