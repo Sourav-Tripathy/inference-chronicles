@@ -1,0 +1,12 @@
+{
+  "name": "inference-chronicles",
+  "version": "1.0.0",
+  "description": "The Inference Chronicles: Amnesia of an AI Architect",
+  "scripts": {
+    "dev": "wrangler pages dev ./inference-chronicles",
+    "deploy": "wrangler pages deploy ./inference-chronicles"
+  },
+  "devDependencies": {
+    "wrangler": "^3.60.0"
+  }
+}

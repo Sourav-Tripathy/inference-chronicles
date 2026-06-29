@@ -1,0 +1,10 @@
+# Global security headers for all paths
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';
+
+# Cache-Control headers for story configuration JSON (cache for 1 hour, revalidate after)
+/story.json
+  Cache-Control: public, max-age=3600, must-revalidate

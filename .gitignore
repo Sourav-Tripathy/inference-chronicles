@@ -1,0 +1,13 @@
+# Dependency directories
+node_modules/
+
+# Cloudflare Wrangler state/cache
+.wrangler/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# System files
+.DS_Store
