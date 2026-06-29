@@ -144,7 +144,8 @@ body {
 
 /* GAME DASHBOARD */
 #game-screen {
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   background-color: var(--bg-deep);
 }
 
@@ -233,8 +234,11 @@ body {
 .game-board {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  height: 100%;
-  overflow: hidden;
+  grid-template-rows: 1fr;
+  flex-grow: 1;
+  min-height: 0;
+  margin-top: 12px;
+  border-top: 3px solid var(--border-color);
 }
 
 @media (max-width: 1024px) {
@@ -252,6 +256,7 @@ body {
   border-right: 3px solid var(--border-color);
   background: #020208;
   height: 100%;
+  min-height: 0;
 }
 
 .stage-container {
@@ -469,6 +474,7 @@ body {
   flex-direction: column;
   background: rgba(7, 7, 20, 0.95);
   height: 100%;
+  min-height: 0;
 }
 
 .narration-box {
@@ -476,7 +482,9 @@ body {
   border-bottom: 3px solid var(--border-color);
   position: relative;
   padding: 30px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
 }
 
 .panel-tag {
@@ -499,6 +507,8 @@ body {
   line-height: 1.7;
   color: var(--text-primary);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 /* Action Box */

@@ -206,7 +206,7 @@ async function initGame() {
     currentMapIndex = playerStats.currentMap || 0;
     currentGateIndex = playerStats.currentGate || 0;
     document.getElementById('title-screen').style.display = 'none';
-    document.getElementById('game-screen').style.display = 'grid';
+    document.getElementById('game-screen').style.display = 'flex';
     initRenderer();
     loadGate(currentMapIndex, currentGateIndex);
   } else {
@@ -236,7 +236,7 @@ function startNewGame() {
   currentGateIndex = 0;
   
   document.getElementById('title-screen').style.display = 'none';
-  document.getElementById('game-screen').style.display = 'grid';
+  document.getElementById('game-screen').style.display = 'flex';
   
   initRenderer();
   saveProgress();
